@@ -1,0 +1,135 @@
+openapi: 3.0.0
+info:
+  title: TokenLedger API
+  version: 1.0.0
+  description: |
+    REST API for interacting with the TokenLedger smart contract.
+    Provides endpoints for minting, transferring, and checking token balances.
+
+servers:
+  - url: http://localhost:5001
+
+paths:
+  /api/tokens/mint:
+    post:
+      summary: Mint tokens (owner only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - to
+                - amount
+              properties:
+                to:
+                  type: string
+                  description: Recipient Ethereum address
+                  example: "0x1234567890abcdef1234567890abcdef12345678"
+                amount:
+                  type: integer
+                  description: Amount of tokens to mint
+                  example: 100
+      responses:
+        '200':
+          description: Mint successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  txHash:
+                    type: string
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /api/tokens/transfer:
+    post:
+      summary: Transfer tokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fromPrivateKey
+                - to
+                - amount
+              properties:
+                fromPrivateKey:
+                  type: string
+                  description: Private key of the sender
+                  example: "0xabcdef..."
+                to:
+                  type: string
+                  description: Recipient Ethereum address
+                  example: "0x1234567890abcdef1234567890abcdef12345678"
+                amount:
+                  type: integer
+                  description: Amount of tokens to transfer
+                  example: 50
+      responses:
+        '200':
+          description: Transfer successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  txHash:
+                    type: string
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /api/tokens/balance/{address}:
+    get:
+      summary: Get token balance of an address
+      parameters:
+        - in: path
+          name: address
+          required: true
+          schema:
+            type: string
+          description: Ethereum address to check balance for
+          example: "0x1234567890abcdef1234567890abcdef12345678"
+      responses:
+        '200':
+          description: Balance retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  address:
+                    type: string
+                  balance:
+                    type: string
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
