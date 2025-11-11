@@ -124,7 +124,7 @@ export function makeServer({ environment = "development" } = {}) {
       this.post("/user/address/:addressId", updateAddressHandler.bind(this));
       this.delete("/user/address/:addressId", removeAddressHandler.bind(this));
 
-      // order routes (private)
+      // order routes (private) //
       this.get("/user/orders", getOrderItemsHandler.bind(this));
       this.post("/user/orders", addItemToOrdersHandler.bind(this));
     },

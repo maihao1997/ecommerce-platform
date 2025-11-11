@@ -5,7 +5,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const sendEmail = require("../utils/sendEmail");
 const axios = require('axios');
 
-// Create New Order
+// Create New Order...
 exports.newOrder = asyncErrorHandler(async (req, res, next) => {
   const { shippingInfo, orderItems, paymentInfo, totalPrice } = req.body;
 
